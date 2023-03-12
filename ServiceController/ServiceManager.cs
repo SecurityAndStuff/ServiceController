@@ -17,6 +17,10 @@ namespace ServiceController
             _scmHandle = nint.Zero;
             _buffer = nint.Zero;
             _serviceHandle = nint.Zero;
+            _scmHandle = OpenSCManager(null, null, (int)ServiceControlManagerType.SC_MANAGER_ALL_ACCESS);
+            if (_scmHandle != nint.Zero) return;
+            Utils.PrintLastError("OpenSCManager");
+            throw new Exception("Failed to initialize");
         }
 
 
@@ -47,13 +51,6 @@ namespace ServiceController
         {
             var servicesList = new List<Service>();
             _buffer = nint.Zero;
-            _scmHandle = OpenSCManager(null, null, (int)ServiceControlManagerType.SC_MANAGER_ALL_ACCESS);
-            if (_scmHandle == nint.Zero)
-            {
-                Utils.PrintLastError("OpenSCManager");
-                return servicesList;
-
-            }
             uint resumeHandle = 0;
 
             if (EnumServicesStatusEx(_scmHandle, SC_ENUM_PROCESS_INFO, (int)(ServiceType.SERVICE_KERNEL_DRIVER | ServiceType.SERVICE_INTERACTIVE_PROCESS | ServiceType.SERVICE_WIN32 | ServiceType.SERVICE_WIN32_OWN_PROCESS | ServiceType.SERVICE_WIN32_SHARE_PROCESS),
@@ -162,6 +159,49 @@ namespace ServiceController
             Console.WriteLine(status);
             CloseServiceHandle(_serviceHandle);
             _serviceHandle = 0;
+            return true;
+        }
+
+        public bool CreateService(string name,
+            string description,
+            SERVICE_ACCESS access,
+            ServiceType serviceType,
+            uint startType,
+            int errorControl,
+            string binaryPath,
+            string? _,
+            string? tagId,
+            string dependencies,
+            string serviceStartName,
+            string? password
+            )
+        {
+            if (string.IsNullOrWhiteSpace(name)) return false;
+            if (string.IsNullOrWhiteSpace(description)) return false;
+            if (string.IsNullOrWhiteSpace(binaryPath)) return false;
+            if (_scmHandle == 0) return false;
+            var serviceHandle = Pinvoke.CreateService(
+                _scmHandle,
+                name,
+                description,
+                (uint)access,
+                (uint)serviceType,
+                startType,
+                0,
+                binaryPath,
+                null,
+                null,
+                dependencies,
+                null,
+                null
+            );
+            if (serviceHandle == 0)
+            {
+                Utils.PrintLastError("CreateService");
+                return false;
+            }
+
+            CloseServiceHandle(serviceHandle);
             return true;
         }
     }

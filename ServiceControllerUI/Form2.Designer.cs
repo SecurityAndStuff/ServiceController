@@ -56,6 +56,7 @@
             button1.TabIndex = 0;
             button1.Text = "Create";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += createServiceClick;
             // 
             // button2
             // 
