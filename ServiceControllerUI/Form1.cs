@@ -9,13 +9,15 @@ namespace ServiceController
         private int _lasRowIndexClicked = -1;
         public Form1()
         {
+            _currentServiceRows = new List<Service>();
+            _currentDriverRows = new List<Driver>();
             InitializeComponent();
             Shown += Form1_Shown;
             _serviceManager = new ServiceManager();
             _driverManager = new DriverManager();
         }
 
-        private void Form1_Shown(object sender, EventArgs e)
+        private void Form1_Shown(object? sender, EventArgs e)
         {
             serviceDataGrid.Columns.Add("Name", "Name");
             serviceDataGrid.Columns.Add("Display Name", "Display Name");

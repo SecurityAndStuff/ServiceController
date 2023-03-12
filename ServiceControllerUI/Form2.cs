@@ -8,7 +8,7 @@
             Shown += Form2_Shown;
         }
 
-        private void Form2_Shown(object sender, EventArgs e)
+        private void Form2_Shown(object? sender, EventArgs e)
         {
             this.name_text.Text = Guid.NewGuid().ToString();
             this.start_type_combo.SelectedItem = "Demand start";

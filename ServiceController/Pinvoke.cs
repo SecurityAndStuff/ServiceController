@@ -228,7 +228,7 @@ namespace ServiceController
             uint dwErrorControl,
             string lpBinaryPathName,
             [Optional] string? lpLoadOrderGroup,
-            [Optional] string lpdwTagId,    // only string so we can pass null
+            [Optional] string? lpdwTagId,    // only string so we can pass null
             [Optional] string lpDependencies,
             [Optional] string lpServiceStartName,
             [Optional] string? lpPassword);
