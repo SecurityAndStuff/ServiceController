@@ -7,15 +7,17 @@ namespace ServiceController
         private IEnumerable<Service> _currentServiceRows;
         private IEnumerable<Driver> _currentDriverRows;
         private int _lasRowIndexClicked = -1;
-        public Form1()
+        public Form1(IEnumerable<Service> currentServiceRows, IEnumerable<Driver> currentDriverRows)
         {
+            _currentServiceRows = currentServiceRows;
+            _currentDriverRows = currentDriverRows;
             InitializeComponent();
             Shown += Form1_Shown;
             _serviceManager = new ServiceManager();
             _driverManager = new DriverManager();
         }
 
-        private void Form1_Shown(object sender, EventArgs e)
+        private void Form1_Shown(object? sender, EventArgs e)
         {
             serviceDataGrid.Columns.Add("Name", "Name");
             serviceDataGrid.Columns.Add("Display Name", "Display Name");

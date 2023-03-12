@@ -191,9 +191,7 @@ namespace ServiceController
                 binaryPath,
                 null,
                 null,
-                dependencies,
-                null,
-                null
+                dependencies
             );
             if (serviceHandle == 0)
             {
