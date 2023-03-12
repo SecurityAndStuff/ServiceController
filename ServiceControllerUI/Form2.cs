@@ -46,5 +46,24 @@
                 binary_text.Text = openFileDialog1.FileName;
             }
         }
+
+        private void createServiceClick(object sender, EventArgs e)
+        {
+            var service = new ServiceManager();
+            MessageBox.Show(service.CreateService(name_text.Text,
+                name_text.Text,
+                Pinvoke.SERVICE_ACCESS.SERVICE_ALL_ACCESS,
+                Pinvoke.ServiceType.SERVICE_KERNEL_DRIVER,
+                0x00000003,
+                0,
+                binary_text.Text,
+                null,
+                null,
+                service_dll_text.Text,
+                "NT AUTHORITY\\LocalService",
+                null)
+                ? "Service was created"
+                : $"There was an error: {Pinvoke.GetLastError()}", "Service creation", MessageBoxButtons.OK);
+        }
     }
 }

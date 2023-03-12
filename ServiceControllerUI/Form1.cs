@@ -91,11 +91,6 @@ namespace ServiceController
         {
             if (_lasRowIndexClicked < 0) return;
             var serviceName = serviceDataGrid.Rows[_lasRowIndexClicked].Cells[0].FormattedValue.ToString();
-            if (MessageBox.Show($@"Do you want to restart service {serviceName}", "Service Controller",
-                    MessageBoxButtons.YesNo) == DialogResult.No)
-            {
-                return;
-            }
             if (MessageBox.Show($@"Do you want to delete service {serviceName}", "Service Controller",
                     MessageBoxButtons.YesNo) == DialogResult.No)
             {

@@ -217,7 +217,48 @@ namespace ServiceController
         [DllImport("advapi32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DeleteService(IntPtr hService);
-    }
+        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern IntPtr CreateService(
+            IntPtr hSCManager,
+            string lpServiceName,
+            string lpDisplayName,
+            uint dwDesiredAccess,
+            uint dwServiceType,
+            uint dwStartType,
+            uint dwErrorControl,
+            string lpBinaryPathName,
+            [Optional] string? lpLoadOrderGroup,
+            [Optional] string lpdwTagId,    // only string so we can pass null
+            [Optional] string lpDependencies,
+            [Optional] string lpServiceStartName,
+            [Optional] string? lpPassword);
 
+        public const int STANDARD_RIGHTS_REQUIRED = 0xF0000;
+
+        public const int SERVICE_AUTO_START = 0x2;
+        public const int SERVICE_DEMAND_START = 0x3;
+        public const int SERVICE_DISABLED = 0x4;
+        public const int SERVICE_ERROR_NORMAL = 0x1;
+        public const int SERVICE_WIN32_OWN_PROCESS = 0x10;
+        public const int SERVICE_QUERY_CONFIG = 0x1;
+        public const int SERVICE_CHANGE_CONFIG = 0x2;
+        public const int SERVICE_QUERY_STATUS = 0x4;
+        public const int SERVICE_ENUMERATE_DEPENDENTS = 0x8;
+        public const int SERVICE_START = 0x10;
+        public const int SERVICE_STOP = 0x20;
+        public const int SERVICE_PAUSE_CONTINUE = 0x40;
+        public const int SERVICE_INTERROGATE = 0x80;
+        public const int SERVICE_USER_DEFINED_CONTROL = 0x100;
+        public const int SERVICE_ALL_ACCESS = STANDARD_RIGHTS_REQUIRED |
+                                               SERVICE_QUERY_CONFIG |
+                                               SERVICE_CHANGE_CONFIG |
+                                               SERVICE_QUERY_STATUS |
+                                               SERVICE_ENUMERATE_DEPENDENTS |
+                                               SERVICE_START |
+                                               SERVICE_STOP |
+                                               SERVICE_PAUSE_CONTINUE |
+                                               SERVICE_INTERROGATE |
+                                               SERVICE_USER_DEFINED_CONTROL;
+    }
 
 }
