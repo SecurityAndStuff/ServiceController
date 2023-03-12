@@ -7,10 +7,10 @@ namespace ServiceController
         private IEnumerable<Service> _currentServiceRows;
         private IEnumerable<Driver> _currentDriverRows;
         private int _lasRowIndexClicked = -1;
-        public Form1(IEnumerable<Service> currentServiceRows, IEnumerable<Driver> currentDriverRows)
+        public Form1()
         {
-            _currentServiceRows = currentServiceRows;
-            _currentDriverRows = currentDriverRows;
+            _currentServiceRows = new List<Service>();
+            _currentDriverRows = new List<Driver>();
             InitializeComponent();
             Shown += Form1_Shown;
             _serviceManager = new ServiceManager();
